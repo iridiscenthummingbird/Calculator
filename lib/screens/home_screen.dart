@@ -1,3 +1,5 @@
+import 'package:calculator/buttons/amber_button.dart';
+import 'package:calculator/buttons/grey_button.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +16,28 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.black,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          const Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text(
+              "100+115",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text(
+              "215",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 80,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: GridView.count(
@@ -23,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisCount: 4,
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
-              children: _createList(),
+              children: _createListOfButtons(),
             ),
           )
         ],
@@ -31,48 +54,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> _createList() {
-    List<Widget> list = [];
-    for (var i = 0; i < 10; i++) {
-      list.add(
-        Material(
-          color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(20),
-          child: InkResponse(
-            child: const Center(
-                child: Text(
-              "5",
-              style: TextStyle(fontSize: 50, color: Colors.grey),
-            )),
-            splashColor: Colors.grey[900],
-            highlightColor: Colors.grey[900],
-            highlightShape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {},
-          ),
-        ),
-      );
-    }
-    for (var i = 0; i < 10; i++) {
-      list.add(
-        Material(
-          color: Colors.amber,
-          borderRadius: BorderRadius.circular(20),
-          child: InkResponse(
-            child: const Center(
-                child: Text(
-              "+",
-              style: TextStyle(fontSize: 50, color: Colors.black),
-            )),
-            splashColor: Colors.amber[700],
-            highlightColor: Colors.amber[700],
-            highlightShape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {},
-          ),
-        ),
-      );
-    }
+  List<Widget> _createListOfButtons() {
+    List<Widget> list = [
+      //TODO: do nice init
+      AmberCalculatorButton(label: "C", tapFunction: () {}),
+      AmberCalculatorButton(label: "⌫", tapFunction: () {}),
+      AmberCalculatorButton(label: "%", tapFunction: () {}),
+      AmberCalculatorButton(label: "÷", tapFunction: () {}),
+
+      GreyCalculatorButton(label: "7", tapFunction: () {}),
+      GreyCalculatorButton(label: "8", tapFunction: () {}),
+      GreyCalculatorButton(label: "9", tapFunction: () {}),
+      AmberCalculatorButton(label: "×", tapFunction: () {}),
+
+      GreyCalculatorButton(label: "4", tapFunction: () {}),
+      GreyCalculatorButton(label: "5", tapFunction: () {}),
+      GreyCalculatorButton(label: "6", tapFunction: () {}),
+      AmberCalculatorButton(label: "-", tapFunction: () {}),
+
+      GreyCalculatorButton(label: "1", tapFunction: () {}),
+      GreyCalculatorButton(label: "2", tapFunction: () {}),
+      GreyCalculatorButton(label: "3", tapFunction: () {}),
+      AmberCalculatorButton(label: "+", tapFunction: () {}),
+
+      GreyCalculatorButton(label: "00", tapFunction: () {}),
+      GreyCalculatorButton(label: "0", tapFunction: () {}),
+      GreyCalculatorButton(label: ".", tapFunction: () {}),
+      AmberCalculatorButton(label: "=", tapFunction: () {}),
+    ];
     return list;
   }
 }
