@@ -1,5 +1,6 @@
 import 'package:calculator/buttons/amber_button.dart';
 import 'package:calculator/buttons/grey_button.dart';
+import 'package:calculator/calculator/calculator.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,9 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(5.0),
             child: Text(
               Calculator.mainString,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 80,
+                fontSize: Calculator.fontSize,
               ),
             ),
           ),
@@ -56,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _createListOfButtons() {
     List<Widget> list = [
-      //TODO: do nice init
       AmberCalculatorButton(
           label: "C",
           tapFunction: () {
@@ -78,10 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "÷",
           tapFunction: () {
-            Calculator.addOperation("/");
+            Calculator.addOperation("/", context);
             setState(() {});
           }),
-
       GreyCalculatorButton(
           label: "7",
           tapFunction: () {
@@ -103,10 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "×",
           tapFunction: () {
-            Calculator.addOperation("*");
+            Calculator.addOperation("*", context);
             setState(() {});
           }),
-
       GreyCalculatorButton(
           label: "4",
           tapFunction: () {
@@ -128,10 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "-",
           tapFunction: () {
-            Calculator.addOperation("-");
+            Calculator.addOperation("-", context);
             setState(() {});
           }),
-
       GreyCalculatorButton(
           label: "1",
           tapFunction: () {
@@ -153,10 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "+",
           tapFunction: () {
-            Calculator.addOperation("+");
+            Calculator.addOperation("+", context);
             setState(() {});
           }),
-
       GreyCalculatorButton(
           label: "00",
           tapFunction: () {
@@ -178,121 +174,11 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "=",
           tapFunction: () {
-            Calculator.getResult();
+            Calculator.getResult(context);
             Calculator.clear();
             setState(() {});
           }),
     ];
     return list;
-  }
-}
-
-class Calculator {
-  static String _mainString = "";
-  static String _extraString = "";
-
-  static String _operation = "";
-
-  static late double _firstNumber;
-
-  static late double _secondNumber;
-
-  static String get mainString => _mainString;
-  static String get extraString => _extraString;
-
-  static void addSymbol(String symbol) {
-    _mainString += symbol;
-  }
-
-  static void addDot() {
-    if (_mainString.isEmpty) _mainString += "0.";
-    if (!_mainString.contains(".")) _mainString += ".";
-  }
-
-  static void eraseLast() {
-    if (_mainString.isNotEmpty) {
-      _mainString = _mainString.substring(0, _mainString.length - 1);
-    }
-  }
-
-  static void getResult() {
-    try {
-      _secondNumber = double.parse(_mainString);
-      switch (_operation) {
-        case "+":
-          sum();
-          break;
-        case "-":
-          difference();
-          break;
-        case "*":
-          mult();
-          break;
-        case "/":
-          division();
-          break;
-        default:
-          throw UnimplementedError();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  static void addOperation(String operation) {
-    if (_extraString.isNotEmpty) {
-      getResult();
-    }
-    _operation = operation;
-    try {
-      _firstNumber = double.parse(_mainString);
-      _extraString = _firstNumber.toString() + _operation;
-      _mainString = "";
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  static void mult() {
-    _extraString += _secondNumber.toString();
-    _mainString = (_firstNumber * _secondNumber).toString();
-    _firstNumber = _firstNumber * _secondNumber;
-  }
-
-  static void division() {
-    _extraString += _secondNumber.toString();
-    _mainString = (_firstNumber / _secondNumber).toString();
-    _firstNumber = _firstNumber / _secondNumber;
-  }
-
-  static void sum() {
-    _extraString += _secondNumber.toString();
-    _mainString = (_firstNumber + _secondNumber).toString();
-    _firstNumber = _firstNumber + _secondNumber;
-  }
-
-  static void difference() {
-    _extraString += _secondNumber.toString();
-    _mainString = (_firstNumber - _secondNumber).toString();
-    _firstNumber = _firstNumber - _secondNumber;
-  }
-
-  static void getPercent() {
-    _firstNumber = double.parse(_mainString);
-    _firstNumber = _firstNumber * 0.01;
-    _mainString = _firstNumber.toString();
-  }
-
-  static void eraseAll() {
-    _mainString = "";
-    _extraString = "";
-    _secondNumber = 0;
-    _firstNumber = 0;
-  }
-
-  static void clear() {
-    _extraString = "";
-    _secondNumber = 0;
-    _operation = "";
   }
 }
