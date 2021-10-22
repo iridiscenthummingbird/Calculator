@@ -10,7 +10,16 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late final AnimationController _fadeController = AnimationController(
+    value: 1.0,
+    duration: const Duration(milliseconds: 300),
+    vsync: this,
+  );
+  late final Animation<double> _fadeAnimation = CurvedAnimation(
+    parent: _fadeController,
+    curve: Curves.easeIn,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,21 +30,27 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: Text(
-              Calculator.extraString,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32,
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Text(
+                Calculator.extraString,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                ),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: Text(
-              Calculator.mainString,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: Calculator.fontSize,
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Text(
+                Calculator.mainString,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: Calculator.fontSize,
+                ),
               ),
             ),
           ),
@@ -60,8 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "C",
           tapFunction: () {
-            Calculator.eraseAll();
-            setState(() {});
+            _fadeController.reverse().whenComplete(() {
+              Calculator.eraseAll();
+              _fadeController.value = 1.0;
+              setState(() {});
+            });
           }),
       AmberCalculatorButton(
           label: "⌫",
@@ -78,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "÷",
           tapFunction: () {
-            Calculator.addOperation("/", context);
+            Calculator.addOperation("÷", context);
             setState(() {});
           }),
       GreyCalculatorButton(
@@ -102,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
       AmberCalculatorButton(
           label: "×",
           tapFunction: () {
-            Calculator.addOperation("*", context);
+            Calculator.addOperation("×", context);
             setState(() {});
           }),
       GreyCalculatorButton(

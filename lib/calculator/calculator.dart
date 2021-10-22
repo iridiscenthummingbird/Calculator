@@ -53,10 +53,10 @@ class Calculator {
         case "-":
           difference();
           break;
-        case "*":
+        case "×":
           mult();
           break;
-        case "/":
+        case "÷":
           division();
           break;
         default:
